@@ -55,13 +55,28 @@ function runPart(partFn, partConfig) {
 async function main() {
   CONFIG.cwd = dirname(import.meta.url).replace('file://', '');
 
+  const args = process.argv.slice(2);
+  const day = +args[0];
+  if(Number.isNaN(day)) {
+    console.error('No day provided! Please provide a day number on the command line.');
+    process.exit(1);
+  }
+
   const daysJsonContents = readFileSync(join(CONFIG.cwd, "days.json"), 'utf8');
   const daysJson = JSON.parse(daysJsonContents);
 
-  const DAY = 1;
-  console.log(`Day ${DAY}:`);
+  const dayJson = daysJson.filter(dayConfig => dayConfig.number === day);
+  if(dayJson.length < 1) {
+    console.warn(`No config found for day ${day}. Exiting...`);
+    process.exit(0);
+  } else if(dayJson.length > 1) {
+    console.error(`More than one config found for day ${day}. You should... fix that.`);
+    process.exit(2);
+  }
+
+  console.log(`Day ${day}:`);
   console.group();
-  await runDay(daysJson[0]);
+  await runDay(daysJson[day]);
   console.groupEnd();
 }
 

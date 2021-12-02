@@ -15,5 +15,22 @@
         "input": "part1-real.txt"
       }
     ]
+  },
+  {
+    "number": 1,
+    "parts": [
+      {
+        "examples": [
+          { "input": "test-sweep.txt", "expected": 7 }
+        ],
+        "input": "real-sweep.txt"
+      },
+      {
+        "examples": [
+          { "input": "test-sweep.txt", "expected": 5 }
+        ],
+        "input": "real-sweep.txt"
+      }
+    ]
   }
 ]
