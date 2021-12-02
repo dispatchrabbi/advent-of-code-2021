@@ -1,0 +1,19 @@
+[
+  {
+    "number": 0,
+    "parts": [
+      {
+        "examples": [
+          { "input": "part1-test1.txt", "expected": 514579 }
+        ],
+        "input": "part1-real.txt"
+      },
+      {
+        "examples": [
+          { "input": "part1-test1.txt", "expected": 241861950 }
+        ],
+        "input": "part1-real.txt"
+      }
+    ]
+  }
+]
