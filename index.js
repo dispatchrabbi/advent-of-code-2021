@@ -74,7 +74,7 @@ async function main() {
     process.exit(2);
   }
 
-  console.log(`Day ${day}:`);
+  console.log(`🌅 Day ${day}:`);
   console.group();
   await runDay(daysJson[day]);
   console.groupEnd();

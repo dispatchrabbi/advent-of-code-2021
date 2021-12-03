@@ -32,5 +32,22 @@
         "input": "real-sweep.txt"
       }
     ]
+  },
+  {
+    "number": 2,
+    "parts": [
+      {
+        "examples": [
+          { "input": "test-directions.txt", "expected": 150 }
+        ],
+        "input": "real-directions.txt"
+      },
+      {
+        "examples": [
+          { "input": "test-directions.txt", "expected": 900 }
+        ],
+        "input": "real-directions.txt"
+      }
+    ]
   }
 ]
