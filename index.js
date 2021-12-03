@@ -1,6 +1,7 @@
 import { dirname, join } from 'path';
 import { existsSync, readFileSync, readdirSync } from 'fs';
-import exp from 'constants';
+
+import chalk from 'chalk';
 
 // I'm not proud of this, but eh, I can fix it later
 const CONFIG = {
@@ -15,13 +16,13 @@ async function main() {
   const args = process.argv.slice(2);
   const dayNumber = +args[0];
   if(Number.isNaN(dayNumber)) {
-    console.error('❗️ No day provided! Please provide a day number on the command line.');
+    console.error(chalk.red('❗️ No day provided! Please provide a day number on the command line.'));
     process.exit(1);
   }
 
   // check if code for that day exists yet
   if(!existsSync(join(CONFIG.cwd, `day${dayNumber}`, 'index.js'))) {
-    console.error(`❗️ Could not find day${dayNumber}/index.js. Quitting...`);
+    console.error(chalk.red(`❗️ Could not find day${dayNumber}/index.js. Quitting...`));
     process.exit(2);
   }
 
@@ -30,7 +31,7 @@ async function main() {
     const expectedJsonContents = readFileSync(join(CONFIG.cwd, "expected.json"), 'utf8');
     CONFIG.expected = JSON.parse(expectedJsonContents);
   } catch(ex) {
-    console.error(`❗️ Could not read expected.json: ${ex.message}`);
+    console.error(chalk.red('❗️ Could not read expected.json: ') + `${ex.message}`);
     process.exit(3);
   }
 
@@ -81,22 +82,22 @@ function runPartExamples(dayNumber, partNumber, partFn) {
     try {
       input = readFileSync(join(CONFIG.cwd, `day${dayNumber}`, example.input), 'utf8');
     } catch(ex) {
-      console.error(`🔇 Could not read input at ${example.input}. Skipping...`);
+      console.warn(chalk.yellow(`🔇 Could not read input at ${example.input}. Skipping...`));
       return;
     }
     const output = partFn(input);
 
     if(output === example.expected) {
-      console.log(`✅ The example at ${example.input} passed!`);
+      console.log(chalk.greenBright(`✅ The example at ${example.input} passed!`));
     } else {
-      console.log(`❌ Expected ${output} to equal ${example.expected} but it did not :(`);
+      console.log(chalk.redBright(`❌ Expected ${output} to equal ${example.expected} but it did not :(`));
     }
   });
 }
 
 function runPartForReal(partFn, input) {
   let output = partFn(input)
-  console.log(`🏁 The output for real is: ${output}`);
+  console.log(chalk.blue('🏁 The output for real is: ') + chalk.bold(`${output}`));
 }
 
 function getExpectedResults(dayNumber, partNumber) {
