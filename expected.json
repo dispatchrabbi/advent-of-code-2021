@@ -1,0 +1,8 @@
+[
+  { "day": 0, "part": 1, "input": "test.txt", "expected": 514579 },
+  { "day": 0, "part": 2, "input": "test.txt", "expected": 241861950 },
+  { "day": 1, "part": 1, "input": "example.txt", "expected": 7 },
+  { "day": 1, "part": 2, "input": "example.txt", "expected": 5 },
+  { "day": 2, "part": 1, "input": "test-directions.txt", "expected": 150 },
+  { "day": 2, "part": 2, "input": "test-directions.txt", "expected": 900 }
+]

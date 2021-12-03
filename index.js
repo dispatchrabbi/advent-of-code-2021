@@ -1,83 +1,104 @@
 import { dirname, join } from 'path';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync, readdirSync } from 'fs';
+import exp from 'constants';
 
 // I'm not proud of this, but eh, I can fix it later
 const CONFIG = {
-  cwd: null,
-  dayFolder: null,
+  cwd: dirname(import.meta.url).replace('file://', ''),
+  expected: [],
+};
+
+main().catch(err => console.error(err));
+
+async function main() {
+  // determine which day to run
+  const args = process.argv.slice(2);
+  const dayNumber = +args[0];
+  if(Number.isNaN(dayNumber)) {
+    console.error('❗️ No day provided! Please provide a day number on the command line.');
+    process.exit(1);
+  }
+
+  // check if code for that day exists yet
+  if(!existsSync(join(CONFIG.cwd, `day${dayNumber}`, 'index.js'))) {
+    console.error(`❗️ Could not find day${dayNumber}/index.js. Quitting...`);
+    process.exit(2);
+  }
+
+  // load expected results
+  try {
+    const expectedJsonContents = readFileSync(join(CONFIG.cwd, "expected.json"), 'utf8');
+    CONFIG.expected = JSON.parse(expectedJsonContents);
+  } catch(ex) {
+    console.error(`❗️ Could not read expected.json: ${ex.message}`);
+    process.exit(3);
+  }
+
+  console.log(`🌅 Day ${dayNumber}:`);
+  console.group();
+  await runDay(dayNumber);
+  console.groupEnd();
 }
 
-async function runDay(dayConfig) {
-  CONFIG.dayFolder = `day${dayConfig.number}`;
+async function runDay(dayNumber) {
+  // import the functions for the day
+  let { default: parts } = await import(join(CONFIG.cwd, `day${dayNumber}`, "index.js"));
 
-  let { default: parts } = await import(join(CONFIG.cwd, CONFIG.dayFolder, "index.js"));
+  // figure out which tests to run
+  const inputTypes = getInputTypes(dayNumber);
 
-  dayConfig.parts.forEach(function(partConfig, ix) {
-    console.log(`💬 Part ${ix + 1}:`);
+  // run each part and report back
+  parts.forEach(function(partFn, ix) {
+    const partNumber = ix + 1;
 
+    console.log(`${partNumber}\ufe0f\u20e3  Part ${partNumber}:`);
     console.group();
-    let partFn = parts[ix];
-    if(!partFn) {
-      console.log(`🌋 No part function found! Skipping...`);
-      return;
+    if(inputTypes.examples) {
+      runPartExamples(dayNumber, partNumber, partFn);
     }
-
-    runPart(partFn, partConfig);
+    if(inputTypes.input) {
+      let input = readFileSync(join(CONFIG.cwd, `day${dayNumber}`, 'input.txt'), 'utf8');
+      runPartForReal(partFn, input);
+    }
     console.groupEnd();
   });
 }
 
-function runPart(partFn, partConfig) {
-  // do examples
-  if(partConfig.examples) {
-    partConfig.examples.forEach(async function(example) {
-      let expected = example.expected;
-
-      let input = readFileSync(join(CONFIG.cwd, CONFIG.dayFolder, example.input), 'utf8');
-      let output = partFn(input);
-
-      if(output === expected) {
-        console.log(`✅ The example at ${example.input} passed!`);
-      } else {
-        console.log(`❌ Expected ${output} to equal ${expected} but it did not`);
-      }
-    });
-  }
-
-  // do real input (if it exists)
-  if(partConfig.input) {
-    let input = readFileSync(join(CONFIG.cwd, CONFIG.dayFolder, partConfig.input), 'utf8');
-    let output = partFn(input)
-    console.log(`🏁 The output for real is: ${output}`);
-  }
+function getInputTypes(dayNumber) {
+  const textFilesInDayDir = readdirSync(join(CONFIG.cwd, `day${dayNumber}`), 'utf8').filter(filename => filename.endsWith('.txt'));
+  return {
+    examples: textFilesInDayDir.filter(filename => filename !== 'input.txt').length > 0,
+    input: textFilesInDayDir.includes('input.txt'),
+  };
 }
 
-async function main() {
-  CONFIG.cwd = dirname(import.meta.url).replace('file://', '');
+function runPartExamples(dayNumber, partNumber, partFn) {
+  // get test results we're looking to see
+  const expectedResults = getExpectedResults(dayNumber, partNumber);
+  expectedResults.forEach(async function(example) {
+    // read the input for the example and run the code
+    let input;
+    try {
+      input = readFileSync(join(CONFIG.cwd, `day${dayNumber}`, example.input), 'utf8');
+    } catch(ex) {
+      console.error(`🔇 Could not read input at ${example.input}. Skipping...`);
+      return;
+    }
+    const output = partFn(input);
 
-  const args = process.argv.slice(2);
-  const day = +args[0];
-  if(Number.isNaN(day)) {
-    console.error('No day provided! Please provide a day number on the command line.');
-    process.exit(1);
-  }
-
-  const daysJsonContents = readFileSync(join(CONFIG.cwd, "days.json"), 'utf8');
-  const daysJson = JSON.parse(daysJsonContents);
-
-  const dayJson = daysJson.filter(dayConfig => dayConfig.number === day);
-  if(dayJson.length < 1) {
-    console.warn(`No config found for day ${day}. Exiting...`);
-    process.exit(0);
-  } else if(dayJson.length > 1) {
-    console.error(`More than one config found for day ${day}. You should... fix that.`);
-    process.exit(2);
-  }
-
-  console.log(`🌅 Day ${day}:`);
-  console.group();
-  await runDay(daysJson[day]);
-  console.groupEnd();
+    if(output === example.expected) {
+      console.log(`✅ The example at ${example.input} passed!`);
+    } else {
+      console.log(`❌ Expected ${output} to equal ${example.expected} but it did not :(`);
+    }
+  });
 }
 
-main().catch(err => console.error(err));
+function runPartForReal(partFn, input) {
+  let output = partFn(input)
+  console.log(`🏁 The output for real is: ${output}`);
+}
+
+function getExpectedResults(dayNumber, partNumber) {
+  return CONFIG.expected.filter(entry => entry.day === dayNumber && entry.part === partNumber);
+}
