@@ -6,5 +6,7 @@
   { "day": 2, "part": 1, "input": "test-directions.txt", "expected": 150 },
   { "day": 2, "part": 2, "input": "test-directions.txt", "expected": 900 },
   { "day": 3, "part": 1, "input": "test.txt", "expected": 198 },
-  { "day": 3, "part": 2, "input": "test.txt", "expected": 230 }
+  { "day": 3, "part": 2, "input": "test.txt", "expected": 230 },
+  { "day": 4, "part": 1, "input": "test.txt", "expected": 4512 },
+  { "day": 4, "part": 2, "input": "test.txt", "expected": 1924 }
 ]
