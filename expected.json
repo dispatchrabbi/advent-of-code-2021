@@ -8,5 +8,7 @@
   { "day": 3, "part": 1, "input": "test.txt", "expected": 198 },
   { "day": 3, "part": 2, "input": "test.txt", "expected": 230 },
   { "day": 4, "part": 1, "input": "test.txt", "expected": 4512 },
-  { "day": 4, "part": 2, "input": "test.txt", "expected": 1924 }
+  { "day": 4, "part": 2, "input": "test.txt", "expected": 1924 },
+  { "day": 5, "part": 1, "input": "test.txt", "expected": 5 },
+  { "day": 5, "part": 2, "input": "test.txt", "expected": 12 }
 ]

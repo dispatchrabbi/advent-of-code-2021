@@ -8,4 +8,7 @@ function part2(input) {
   return null;
 }
 
-export default [ part1, part2 ];
+export default [
+  part1,
+  part2
+];
