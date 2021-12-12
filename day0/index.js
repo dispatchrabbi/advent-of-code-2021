@@ -10,5 +10,5 @@ function part2(input) {
 
 export default [
   part1,
-  part2
+  // part2
 ];
