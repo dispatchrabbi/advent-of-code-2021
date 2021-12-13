@@ -22,5 +22,12 @@
   { "day": 10, "part": 1, "input": "test.txt", "expected": 26397 },
   { "day": 10, "part": 2, "input": "test.txt", "expected": 288957 },
   { "day": 11, "part": 1, "input": "test.txt", "expected": 1656 },
-  { "day": 11, "part": 2, "input": "test.txt", "expected": 195 }
+  { "day": 11, "part": 2, "input": "test.txt", "expected": 195 },
+  { "day": 12, "part": 1, "input": "test1.txt", "expected": 10 },
+  { "day": 12, "part": 1, "input": "test2.txt", "expected": 19 },
+  { "day": 12, "part": 1, "input": "test3.txt", "expected": 226 },
+  { "day": 12, "part": 2, "input": "test1.txt", "expected": 36 },
+  { "day": 12, "part": 2, "input": "test2.txt", "expected": 103 },
+  { "day": 12, "part": 2, "input": "test3.txt", "expected": 3509 }
+
 ]
