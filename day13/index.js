@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { draw2dArray } from "../utils.js";
 
 function part1(input) {
   const { dots, folds } = parseInput(input);
@@ -13,7 +14,7 @@ function part2(input) {
 
   const output = folds.reduce(fold, dots);
 
-  console.log(drawPaper(output), '\n');
+  console.log(drawPaperWithDots(output));
   return 'above, in graphical form.';
 }
 
@@ -98,6 +99,18 @@ function drawPaper(paper, fold = { axis: null, coordinate: null }) {
   }
 
   return rows.join('\n');
+}
+
+function drawPaperWithDots(paper) {
+  const { maxX, maxY } = paper.reduce((maxes, point) => ({
+    maxX: Math.max(maxes.maxX, point.x),
+    maxY: Math.max(maxes.maxY, point.y),
+  }), { maxX: -Infinity, maxY: -Infinity });
+
+  let dotsArray = (new Array(maxY + 1)).fill(0).map(() => (new Array(maxX + 1)).fill(0));
+  paper.forEach(dot => dotsArray[dot.y][dot.x] = 1);
+
+  return draw2dArray(dotsArray);
 }
 
 export default [
