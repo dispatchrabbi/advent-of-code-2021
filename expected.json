@@ -33,6 +33,19 @@
   { "day": 14, "part": 1, "input": "test.txt", "expected": 1588 },
   { "day": 14, "part": 2, "input": "test.txt", "expected": 2188189693529 },
   { "day": 15, "part": 1, "input": "test.txt", "expected": 40 },
-  { "day": 15, "part": 2, "input": "test.txt", "expected": 315 }
+  { "day": 15, "part": 2, "input": "test.txt", "expected": 315 },
+  { "day": 16, "part": 1, "input": "test10.txt", "expected": 6 },
+  { "day": 16, "part": 1, "input": "test11.txt", "expected": 16 },
+  { "day": 16, "part": 1, "input": "test12.txt", "expected": 12 },
+  { "day": 16, "part": 1, "input": "test13.txt", "expected": 23 },
+  { "day": 16, "part": 1, "input": "test14.txt", "expected": 31 },
+  { "day": 16, "part": 2, "input": "test21.txt", "expected": 3 },
+  { "day": 16, "part": 2, "input": "test22.txt", "expected": 54 },
+  { "day": 16, "part": 2, "input": "test23.txt", "expected": 7 },
+  { "day": 16, "part": 2, "input": "test24.txt", "expected": 9 },
+  { "day": 16, "part": 2, "input": "test25.txt", "expected": 1 },
+  { "day": 16, "part": 2, "input": "test26.txt", "expected": 0 },
+  { "day": 16, "part": 2, "input": "test27.txt", "expected": 0 },
+  { "day": 16, "part": 2, "input": "test28.txt", "expected": 1 }
 
 ]
