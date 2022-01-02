@@ -61,5 +61,6 @@
   { "day": 22, "part": 1, "input": "test2.txt", "expected": 474140 },
   { "day": 22, "part": 2, "input": "test2.txt", "expected": 2758514936282235 },
   { "day": 23, "part": 1, "input": "test.txt", "expected": 12521 },
-  { "day": 23, "part": 2, "input": "test.txt", "expected": 44169 }
+  { "day": 23, "part": 2, "input": "test.txt", "expected": 44169 },
+  { "day": 25, "part": 1, "input": "test.txt", "expected": 58 }
 ]
